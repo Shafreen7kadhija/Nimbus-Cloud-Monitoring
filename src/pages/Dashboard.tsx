@@ -10,8 +10,10 @@ import ResourceChart from "../components/dashboard/ResourceChart";
 import ServerStatus from "../components/dashboard/ServerStatus";
 import RegionChart from "../components/dashboard/RegionChart";
 import RecentAlerts from "../components/dashboard/RecentAlerts";
+import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
+  const navigate = useNavigate();
   return (
     <div className="space-y-8">
 

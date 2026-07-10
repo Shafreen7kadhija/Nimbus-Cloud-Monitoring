@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import {
   AlertTriangle,
   ShieldAlert,
@@ -70,6 +71,8 @@ function getClasses(color: string) {
 }
 
 function RecentAlerts() {
+  const navigate = useNavigate();
+
   return (
     <div className="bg-[#151c2d] border border-slate-800 rounded-2xl p-4 h-fit">
 
@@ -79,7 +82,10 @@ function RecentAlerts() {
           Recent Alerts
         </h2>
 
-        <button className="flex items-center gap-2 text-sm text-white hover:text-blue-400">
+        <button
+          onClick={() => navigate("/alerts")}
+          className="flex items-center gap-2 text-sm text-white hover:text-blue-400 transition-colors cursor-pointer"
+        >
           View all
           <ArrowRight size={16} />
         </button>
@@ -102,7 +108,9 @@ function RecentAlerts() {
 
               <div className="flex items-start gap-3">
 
-                <div className={`w-7 h-7 rounded-lg flex items-center justify-center ${style.bg}`}>
+                <div
+                  className={`w-7 h-7 rounded-lg flex items-center justify-center ${style.bg}`}
+                >
                   <Icon
                     size={14}
                     className={style.text}
