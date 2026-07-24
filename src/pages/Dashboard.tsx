@@ -10,10 +10,30 @@ import ResourceChart from "../components/dashboard/ResourceChart";
 import ServerStatus from "../components/dashboard/ServerStatus";
 import RegionChart from "../components/dashboard/RegionChart";
 import RecentAlerts from "../components/dashboard/RecentAlerts";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import api from "../services/api";
 
 function Dashboard() {
   const navigate = useNavigate();
+  const [stats, setStats] = useState({
+  totalServers: 0,
+  online: 0,
+  offline: 0,
+  maintenance: 0,
+  degraded: 0,
+  averageCpu: 0,
+  averageMemory: 0,
+});
+useEffect(() => {
+  api.get("/api/dashboard")
+    .then((response) => {
+      setStats(response.data);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}, []);
   return (
     <div className="space-y-8">
 
@@ -35,7 +55,7 @@ function Dashboard() {
 
         <StatsCard
           title="Servers online"
-          value="9/12"
+          value={`${stats.online}/${stats.totalServers}`}
           subtitle="Across 4 regions"
           icon={Server}
           iconBg="bg-green-900/30"
@@ -53,7 +73,7 @@ function Dashboard() {
 
         <StatsCard
           title="Avg CPU"
-          value="34%"
+          value={`${stats.averageCpu}%`}
           subtitle="Fleet-wide average"
           icon={Cpu}
           iconBg="bg-blue-900/30"
@@ -64,7 +84,7 @@ function Dashboard() {
 
         <StatsCard
           title="Avg memory"
-          value="48%"
+          value={`${stats.averageMemory}%`}
           subtitle="Fleet-wide average"
           icon={MemoryStick}
           iconBg="bg-cyan-900/30"

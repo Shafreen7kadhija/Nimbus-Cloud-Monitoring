@@ -1,14 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import ServerCard from "../components/servers/ServerCard";
 import ServerSearch from "../components/servers/ServerSearch";
 import StatusFilter from "../components/servers/StatusFilter";
 
-import { servers } from "../data/servers";
+import api from "../services/api";
 
 function Servers() {
   const [status, setStatus] = useState("All Statuses");
   const [search, setSearch] = useState("");
+  const [servers, setServers] = useState<any[]>([]);
+  useEffect(() => {
+  api.get("/api/servers")
+    .then((response) => {
+      setServers(response.data);
+    })
+    .catch((error) => {
+      console.error("Error fetching servers:", error);
+    });
+}, []);
   const filteredServers = servers.filter((server) => {
   const matchesStatus =
     status === "All Statuses" || server.status === status;
